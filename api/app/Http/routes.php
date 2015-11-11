@@ -15,4 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/auth','MyAuthController@auth');
+Route::group(['middleware'=>'cors'],function(){
+    Route::post('/auth','MyAuthController@auth');
+
+    Route::get('/getUsers',['middleware'=>'jwt.auth',function(){
+        return \App\User::all();
+    }]);
+});
